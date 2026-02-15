@@ -1,11 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ru">
 <head>
-    <link rel="stylesheet" href="css/main.css">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <script defer src="js/vue.min.js"></script>
+    <script defer src="js/main.js"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <title>Task 2</title>
 </head>
 <body>
+
+<div id="app">
+
+    <div class="column" v-for="(column, index) in columns" :key="index">
+
+        <h2>Столбец {{ index + 1 }}</h2>
+
+        <div v-if="!isColumnLocked(index)">
+
+            <div class="card" v-for="(card, cardIndex) in column.cards" :key="cardIndex">
+
+                <h3>{{ card.title }}</h3>
+
+                <ul>
+
+                    <li v-for="(item, itemIndex) in card.items" :key="itemIndex">
+
+                        <input type="checkbox" v-model="item.completed" @change="updateCard(card)">
+
+                        <span :class="{ completed: item.completed }">{{ item.text }}</span>
+
+                    </li>
+
+                </ul>
+
+                <button @click="removeCard(index, cardIndex)">Удалить карточку</button>
+
+            </div>
+
+            <button @click="addCard(index)">Добавить карточку</button>
+
+        </div>
+
+        <p v-if="isColumnLocked(index)">Столбец заблокирован для редактирования</p>
+
+    </div>
+
+</div>
 
 </body>
 </html>
