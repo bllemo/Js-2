@@ -33,6 +33,7 @@ new Vue({
             const totalItems = card.items.length;
             const completedItems = card.items.filter(item => item.completed).length;
 
+
             if (completedItems > 0.5 * totalItems) {
                 if (this.columns[0].cards.includes(card)) {
                     this.moveCardToColumn(card, 1);
@@ -57,6 +58,14 @@ new Vue({
                 });
             }
             return false;
+        },
+        canAddCard(index) {
+            if (index === 0) {
+                return this.columns[0].cards.length < 3; // Максимум 3 карточки в первом столбце
+            } else if (index === 1) {
+                return this.columns[1].cards.length < 5; // Максимум 5 карточек во втором столбце
+            }
+            return true; // В третьем столбце нет ограничений
         },
         saveData() {
             localStorage.setItem('noteAppData', JSON.stringify(this.columns));
